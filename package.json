@@ -1,0 +1,17 @@
+{
+  "name": "site_screenshoter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^21.1.1",
+    "uuid": "^9.0.0"
+  }
+}

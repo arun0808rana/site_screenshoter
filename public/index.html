@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Save Web Pages</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form onsubmit="handleSubmit(event)">
+      <select name="" id="">
+        <option value="png" selected>PNG</option>
+        <option value="pdf">PDF</option>
+      </select>
+      <input type="search" class="enter-url" />
+      <button>Go</button>
+
+      <div class="loader-container">
+        <img src="./loader.gif" class="loader" />
+        <a href="/download">Download</a>
+      </div>
+    </form>
+
+    <script>
+      const form = document.querySelector("form");
+      const input = document.querySelector(".enter-url");
+      const select = document.querySelector("select");
+      const loader = document.querySelector(".loader");
+      const download = document.querySelector("a");
+
+      download.style.display = "none";
+      loader.style.display = "none";
+
+      const handleSubmit = async (event) => {
+        try {
+          event.preventDefault();
+          
+          const url = input.value;
+          const fileType = select.value;
+
+          if (!url || !fileType) {
+            return;
+          }
+
+          download.style.display = "none";
+          loader.style.display = "inline";
+
+          const response = await fetch(`http://localhost:9915/upload`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ url, fileType }),
+          });
+
+          //   const result = await response.json();
+          download.style.display = "inline";
+          loader.style.display = "none";
+        } catch (error) {
+          console.error("Error:", error);
+          download.style.display = "none";
+          loader.style.display = "none";
+        }
+      };
+    </script>
+  </body>
+</html>
