@@ -6,7 +6,7 @@ const path = require('node:path');
 let filename;
 
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static("downloads"));
 
 app.get("/", (req, res) => {
