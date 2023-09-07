@@ -2,11 +2,12 @@ const express = require("express");
 const app = express();
 const PORT = 9915;
 const takeSS = require("./utils");
-const path = require('node:path');
+const path = require("node:path");
+const fs = require("node:fs");
 let filename;
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static("downloads"));
 
 app.get("/", (req, res) => {
@@ -15,19 +16,25 @@ app.get("/", (req, res) => {
 
 app.post("/upload", (req, res) => {
   const { url, fileType } = req.body;
+
+  // deleting last downloaded file
+  if (fs.existsSync(filename)) {
+    fs.unlinkSync(filename);
+  }
+
   takeSS(url, fileType)
     .then((file) => {
       filename = file;
-      res.send({success: true})
+      res.send({ success: true });
     })
     .catch((error) => {
       res.send({ success: false, error });
     });
 });
 
-app.get('/download', (req, res)=>{
-    res.download(filename)
-})
+app.get("/download", (req, res) => {
+  res.download(filename);
+});
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);

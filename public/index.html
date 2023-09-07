@@ -7,19 +7,26 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <form onsubmit="handleSubmit(event)">
-      <select name="" id="">
-        <option value="png" selected>PNG</option>
-        <option value="pdf">PDF</option>
-      </select>
-      <input type="search" class="enter-url" />
-      <button>Go</button>
+    <div class="container">
+      <h1>Paste a URL to grab a screenshot.</h1>
+      <form onsubmit="handleSubmit(event)">
+        <select name="" id="">
+          <option value="png" selected>PNG</option>
+          <option value="pdf">PDF</option>
+        </select>
+        <div class="search-bar">
+          <input type="search" class="enter-url" spellcheck="false" />
+          <div class="paste-btn" onclick="handlePaste()">Paste</div>
+        </div>
+        <button class="go-btn">Convert</button>
+      </form>
 
       <div class="loader-container">
-        <img src="./loader.gif" class="loader" />
-        <a href="/download">Download</a>
+        <!-- <img src="./loader.gif" class="loader" /> -->
+        <iframe class="loader" src="https://giphy.com/embed/jM4bWFBKpSFeo" width="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <a href="/download" class="download-link">Download</a>
       </div>
-    </form>
+    </div>
 
     <script>
       const form = document.querySelector("form");
@@ -28,13 +35,16 @@
       const loader = document.querySelector(".loader");
       const download = document.querySelector("a");
 
-      download.style.display = "none";
-      loader.style.display = "none";
+      const handlePaste = async () => {
+        const text = await navigator.clipboard.readText();
+        console.log("cancer", text);
+        input.value = text;
+      };
 
       const handleSubmit = async (event) => {
         try {
           event.preventDefault();
-          
+
           const url = input.value;
           const fileType = select.value;
 
@@ -42,8 +52,15 @@
             return;
           }
 
+          const URL_REGEX =
+            /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+          if (!URL_REGEX.test(url)) {
+            return;
+          }
+
           download.style.display = "none";
           loader.style.display = "inline";
+          event.disabled = true;
 
           const response = await fetch(`http://localhost:9915/upload`, {
             method: "POST",
