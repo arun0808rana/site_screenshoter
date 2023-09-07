@@ -68,10 +68,16 @@ form {
   margin-top: 16px;
 }
 
-.loader {
+.loader > img{
   max-width: 120px;
+  display: block;
+  text-align: center;
+  margin: auto;
 }
-
+.loader-text{
+  text-align: center;
+  margin-top: 8px;
+}
 .search-bar {
   position: relative;
   margin-right: 8px;

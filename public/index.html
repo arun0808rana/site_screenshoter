@@ -22,8 +22,11 @@
       </form>
 
       <div class="loader-container">
-        <!-- <img src="./loader.gif" class="loader" /> -->
-        <iframe class="loader" src="https://giphy.com/embed/jM4bWFBKpSFeo" width="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <div class="loader">
+          <img src="./pikachu-running.gif" class="loadera" />
+          <div class="loader-text">Loading... Please wait.</div>
+        </div>
+        
         <a href="/download" class="download-link">Download</a>
       </div>
     </div>
@@ -34,6 +37,8 @@
       const select = document.querySelector("select");
       const loader = document.querySelector(".loader");
       const download = document.querySelector("a");
+
+      input.focus();
 
       const handlePaste = async () => {
         const text = await navigator.clipboard.readText();
